@@ -23,7 +23,7 @@ jobs:
       # 3. Install dependencies and build
       - name: Build dist folder
         run: |
-          npm ci --production
+          npm install
           npm run build
 
       # 4. Sync dist to the directory Docker expects
@@ -31,7 +31,6 @@ jobs:
         run: |
           rsync -av --delete dist/ ~/CITClub/backend/dist/
           rsync -av --delete package.json ~/CITClub/backend/
-          rsync -av --delete package-lock.json ~/CITClub/backend/
 
       # 5. Docker Compose deploy
       - name: Docker deploy
