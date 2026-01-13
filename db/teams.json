@@ -1,0 +1,15 @@
+{
+  "members": [
+    {
+      "id": "7198f938-0833-4a9d-b96a-4668ddcdd8e9",
+      "name": "Test Member",
+      "member_year": 2024,
+      "type": "Executive",
+      "socials": {
+        "linkedin": "https://linkedin.com"
+      },
+      "createdAt": "2026-01-13T16:00:52.536Z",
+      "updatedAt": "2026-01-13T16:00:52.536Z"
+    }
+  ]
+}
