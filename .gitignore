@@ -3,4 +3,4 @@ node_modules/
 .idea
 dist/
 client_secret.json
-media/
+media/db/*.json

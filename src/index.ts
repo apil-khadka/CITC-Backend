@@ -10,6 +10,8 @@ import authRoutes from "./routes/authRoutes";
 import eventRoutes from "./routes/eventRoutes";
 import projectRoutes from "./routes/projectRoutes";
 import teamRoutes from "./routes/teamRoutes";
+import { initDB } from "./db/db";
+import { seedAdminUser } from "./seed/seedAdmin";
 
 dotenv.config();
 
@@ -45,6 +47,13 @@ app.get("/", (req, res) => {
   res.send("CITC API is running");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const startServer = async () => {
+  await initDB();
+  await seedAdminUser();
+
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+};
+
+startServer();
