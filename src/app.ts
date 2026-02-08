@@ -10,6 +10,8 @@ import eventRoutes from './routes/eventRoutes';
 import projectRoutes from './routes/projectRoutes';
 import teamRoutes from './routes/teamRoutes';
 import userRoutes from './routes/userRoutes';
+import adminRoutes from './routes/adminRoutes';
+import committeeRoutes from './routes/committeeRoutes';
 
 dotenv.config();
 
@@ -34,6 +36,8 @@ app.use('/api/events', eventRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/team', teamRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/committee', committeeRoutes);
 
 app.get('/', (req, res) => {
     res.send('CITC API is running');

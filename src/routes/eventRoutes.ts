@@ -5,7 +5,7 @@ import { protect, authorize } from '../middleware/auth';
 const router = express.Router();
 
 router.get('/', getEvents);
-router.get('/:slug', getEvent);
+router.get('/:id', getEvent);
 router.post('/', protect, authorize('admin'), createEvent);
 router.put('/:id', protect, authorize('admin'), updateEvent);
 router.delete('/:id', protect, authorize('admin'), deleteEvent);

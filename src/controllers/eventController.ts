@@ -14,12 +14,15 @@ const generateId = () => crypto.randomUUID();
 
 export const getEvents = async (req: Request, res: Response) => {
     try {
-        const db = await getEventsDB();
+        const db = getEventsDB();
         let events = db.data.events;
 
-        // 1. Filter by published status (always enforce for public API, unless admin - but spec says "Show only events where published === true")
-        // Assuming this is public-facing.
-        events = events.filter(e => e.published === true);
+        // 1. Filter by published status
+        // If 'published' query param is provided, filter by it.
+        if (req.query.published !== undefined) {
+             const isPublished = req.query.published === 'true';
+             events = events.filter(e => e.published === isPublished);
+        }
 
         // 2. Query Filters
         const { year, type, status } = req.query;
@@ -60,8 +63,14 @@ export const getEvents = async (req: Request, res: Response) => {
 
 export const getEvent = async (req: Request, res: Response) => {
     try {
-        const db = await getEventsDB();
-        const event = db.data.events.find(e => e.slug === req.params.slug);
+        const db = getEventsDB();
+        // Check by ID first
+        let event = db.data.events.find(e => e.id === req.params.id);
+
+        // If not found, check by slug
+        if (!event) {
+            event = db.data.events.find(e => e.slug === req.params.id);
+        }
 
         if (event) {
             res.json(event);
@@ -75,7 +84,7 @@ export const getEvent = async (req: Request, res: Response) => {
 
 export const createEvent = async (req: AuthRequest, res: Response) => {
     try {
-        const db = await getEventsDB();
+        const db = getEventsDB();
         const newEvent: IEvent = {
             id: generateId(),
             ...req.body,
@@ -103,7 +112,7 @@ export const rsvpEvent = async (req: Request, res: Response) => {
 
 export const updateEvent = async (req: Request, res: Response) => {
     try {
-        const db = await getEventsDB();
+        const db = getEventsDB();
         const index = db.data.events.findIndex(e => e.id === req.params.id);
 
         if (index === -1) {
@@ -124,7 +133,7 @@ export const updateEvent = async (req: Request, res: Response) => {
 
 export const deleteEvent = async (req: Request, res: Response) => {
     try {
-        const db = await getEventsDB();
+        const db = getEventsDB();
         const initialLength = db.data.events.length;
         db.data.events = db.data.events.filter(e => e.id !== req.params.id);
 
